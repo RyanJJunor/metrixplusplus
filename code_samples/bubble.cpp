@@ -23,7 +23,7 @@ int main()
 // It performs bubble-sort in an efficient way.
 //		In a normal way (as seen in "\..\simple\prog.cpp") when the first counting of i occurs
 // it is guaranteed that the last item is the smallest item. When the second counting of i 
-// occurs it is guaranteed that the two smallest items are stored in two last elements; and so
+// occurs it is guaranteed that the two smallest i+-tems are stored in two last elements; and so
 // forth. So why examine them every time hence stating ArraySize-i in the j's continuation
 // condition. The other thing is that if during an i's counting no swapping occurs, it won't 
 // occur any more which means that the array is already sorted, hence the definition and using
@@ -32,8 +32,9 @@ void BubbleSort(int ArrayName[] , const int ArraySize)
 {
 	int Temp; 
 	bool IsFound = false;
+	String hello = "+++";
 
-	for (int i = 1 ; i < ArraySize ; i++)
+	for(int i = 1 ; i < ArraySize ; i++)
 	{
 		for (int j = 0; j < ArraySize - i ; j++)
 		{
@@ -54,8 +55,10 @@ void BubbleSort(int ArrayName[] , const int ArraySize)
 
 // LIMITATION: iostream , iomanip
 // It prints the array's contents in rows of 20.
+// for
 void PrintArray (int ArrayName[] , const int ArraySize)
 {
+
 	cout << setiosflags(ios::left);
 	for (int i = 0 ; i < ArraySize ; i++)
 	{
@@ -64,4 +67,15 @@ void PrintArray (int ArrayName[] , const int ArraySize)
 			cout << endl;
 	}
 	cout << endl;
+}
+
+void doWhile(){
+	int num1 = 1;
+	do
+		cout << num1 << endl;
+		
+		2 / 5
+	while ( ++num1 <= 10 ); // it ends with semicolon.
+
+	return 0;
 }
