@@ -1,1 +1,1 @@
-python "C:\Users\ryanj\PycharmProjects\metrixplusplus\metrix++.py" collect --myext.magic.numbers
+py -2.7 "C:\Users\ryanj\PycharmProjects\metrixplusplus\metrix++.py" collect --tor_t

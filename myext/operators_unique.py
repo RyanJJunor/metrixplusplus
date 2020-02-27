@@ -1,6 +1,7 @@
 import mpp.api
 import re
 
+#TODO done?
 
 class Plugin(mpp.api.Plugin,
              mpp.api.IConfigurable,
@@ -13,12 +14,12 @@ class Plugin(mpp.api.Plugin,
     method_id = {}
 
     def declare_configuration(self, parser):
-        parser.add_option("--myext.operators_total", "--tor_t",
+        parser.add_option("--myext.operators_unique", "--tor_u",
                           action="store_true", default=False,
                           help="Enables collection of operators numbers metric")
 
     def configure(self, options):
-        self.is_active_numbers = options.__dict__['myext.operators_total']
+        self.is_active_numbers = options.__dict__['myext.operators_unique']
 
     def initialize(self):
         # TODO finish regex brackets REMOVED OPENING BRACKETS TO COUNT ONLY A SET OF BRACKETS
@@ -28,32 +29,17 @@ class Plugin(mpp.api.Plugin,
         # const_cast (casting operator)
         # reinterpret_cast (casting operator)
         # dynamic_cast (casting operator)??????????????????
-        # throws
-        # http://icarus.cs.weber.edu/~dab/cs1410/textbook/2.Core/operators.html
-        # bitor
 
-        # todo anytime this get's changed, change in unique also. Add loops??? Add Classes???
         pattern_to_search = re.compile(
-            '\sdelete\s|\snew\s|--|<<=|<<|<=|<|>>=|>>|>=|->\*|->|>|::|\+\+|\+=|\+|==|!=|\^=|\|=|\?[^:]+:|&&|&=|&|\*=|%=|/=|-=|=|-|\.\*|\*|/|\)|]|%|\.|\|\||\||,|~|\^|!')  # 44??
+            '\sdelete\s|\snew\s|--|<<=|<<|<=|<|>>=|>>|>=|->\*|->|>|::|\+\+|\+=|\+|==|!=|\^=|\|=|\?:|&&|&=|&|\*=|%=|/=|-=|=|-|\.\*|\*|/|\)|]|%|\.|\|\||\||,|~|\^|!')
         # declare metric rules
         self.declare_metric(
             self.is_active_numbers,  # to count if active in callback
-            self.Field('tor_t', int),  # field name and type in the database    a + b + c
+            self.Field('tor_u', int),  # field name and type in the database
             # TODO metric regex
             (pattern_to_search, self.Counter),  # pattern to search
             marker_type_mask=mpp.api.Marker.T.CODE,  # search in code
             region_type_mask=mpp.api.Region.T.FUNCTION)  # search in all types of regions
-
-        # todo check if this will be useful?
-        # Testing multiple entries to the database
-        '''pattern_to_search = re.compile('\+\+')
-        self.declare_metric(
-            self.is_active_numbers,  # to count if active in callback
-            self.Field('op_r', int),  # field name and type in the database
-            # TODO metric regex
-            (pattern_to_search, self.Counter),  # pattern to search
-            marker_type_mask=mpp.api.Marker.T.CODE,  # search in code
-            region_type_mask=mpp.api.Region.T.FUNCTION)'''
 
         # use superclass facilities to initialize everything from declared fields
         super(Plugin, self).initialize(fields=self.get_fields())
@@ -126,30 +112,16 @@ class Plugin(mpp.api.Plugin,
         # TODO contains logic on when to count a metric
         def increment(self, match):
 
-            # This appends the method id to the end of the method name, to distinguish overloaded methods
-            '''test = str(self.region.get_id())
-
-            region_name = self.region.get_name()+test
-
-            if region_name not in Plugin.functions:
-                self.func_metric = {match.group(): 1}
-                Plugin.functions[region_name] = self.func_metric
-            else:
-                if match.group() not in self.func_metric:
-                    self.func_metric[match.group()] = 1
-                else:
-                    self.func_metric[match.group()] += 1'''
-
             # If a method is overloaded, this will append the number of occurrences of the overloaded methods to the end of the name
             id = self.region.get_id()
             name = self.region.get_name()
 
-            #checks if the method's name has already been encountered
+            # checks if the method's name has already been encountered
             if name not in Plugin.methods:
                 Plugin.methods[name] = 1
                 Plugin.method_id[id] = 0
                 name = str(name) + '.' + str(Plugin.methods[name])
-            #Checks if the methods name and id has been encountered before
+            # Checks if the methods name and id has been encountered before
             elif id not in Plugin.method_id:
                 Plugin.methods[name] = Plugin.methods[name] + 1
                 Plugin.method_id[id] = 0
@@ -160,17 +132,18 @@ class Plugin(mpp.api.Plugin,
 
             # If the region that just contained a match is not currently in the Plugin.functions dict, add it and add
             # the metric to the func_metric and give it a value of one, else if the metric hasn't already been added to
-            # the func_metric dict, add it, and give it a value of one, if it is already in the dict, increment it by
+            # the func_metric dict, add it, and give it a value of zero, if it is already in the dict, increment it by
             # one.
-
             if name not in Plugin.functions:
                 self.func_metric = {match.group(): 1}
                 Plugin.functions[name] = self.func_metric
             else:
                 if match.group() not in self.func_metric:
                     self.func_metric[match.group()] = 1
-                else:
-                    self.func_metric[match.group()] += 1
 
 
+            # print(self.region.get_id())
+            # print(self.region.get_name())
+            # print(Plugin.functions)
+            # print(self.test2)
             return 1

@@ -15,7 +15,7 @@ int main()
 	BubbleSort (Array1,ArraySize);
 	cout << "\nAfterSorting:\n\n";
 	PrintArray(Array1,ArraySize);
-	
+		
 	return 0;
 }
 
@@ -67,10 +67,17 @@ void PrintArray (int ArrayName[] , const int ArraySize)
 			cout << endl;
 	}
 	cout << endl;
+	
+	
+	// variable declaration 
+    int n1 = 5, n2 = 10, max; 
+  
+    // Largest among n1 and n2 
+    max = (n1 > n2) ? :? n1 : n2; 
 }
 
 void doWhile(){
-	int num1 = 1;
+	int num1 = 1 * 1;
 	do
 		cout << num1 << endl;
 		
