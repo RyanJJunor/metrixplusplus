@@ -15,7 +15,7 @@ def vocabulary(tor_u, and_u):
 
 
 def length(tor_t, and_t):
-    return tor_t, and_t
+    return tor_t + and_t
 
 
 def volume(leng, vocab):
@@ -32,3 +32,12 @@ def effort(diff, vol):
 
 def bugs(vol):
     return vol / 3000
+
+
+def output():
+    print "hello"
+
+
+print(effort(101.333333, 4216.647093))
+
+

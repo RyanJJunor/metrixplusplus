@@ -1,7 +1,10 @@
-import mpp.api
+import csv
 import re
 
-#TODO done?
+import mpp.api
+
+
+# TODO done?
 
 class Plugin(mpp.api.Plugin,
              mpp.api.IConfigurable,
@@ -89,8 +92,37 @@ class Plugin(mpp.api.Plugin,
                 results[Plugin.functions.items()[i][0]] += metric_count
 
             # Prints the results in a more readable way
-            for i in range(len(results)):
-                print(results.items()[i])
+            #for i in range(len(results)):
+               #print(results.items()[i])
+
+            default = 0
+            column = 6
+            rows = []
+            line = 0
+
+            with open('C:/Users/ryanj/Documents/Honours_Project/operators_total.csv', 'r') as read_obj:
+                with open('C:/Users/ryanj/Documents/Honours_Project/operators_unique.csv', 'wb') as write_obj:
+
+                    csv_reader = csv.reader(read_obj)
+                    csv_writer = csv.writer(write_obj)
+
+                    # for each row in the csv file
+                    for row in csv_reader:
+                        if line == 0:
+                            line += 1
+                            csv_writer.writerow(
+                                [row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9],
+                                 row[10], row[11], row[12], row[13]])
+                            continue
+                        for i in range(len(results)):
+                            if row[2] in results.items()[i]:
+                                row.append(results.items()[i][1])
+                                continue
+                            elif len(row) < column and i + 1 == len(results):
+                                row.append(default)
+                        line += 1
+                        rows.append(row)
+                    csv_writer.writerows(rows)
 
         else:
             counter = counter_class(namespace, field, self, alias, data, None)
@@ -140,7 +172,6 @@ class Plugin(mpp.api.Plugin,
             else:
                 if match.group() not in self.func_metric:
                     self.func_metric[match.group()] = 1
-
 
             # print(self.region.get_id())
             # print(self.region.get_name())

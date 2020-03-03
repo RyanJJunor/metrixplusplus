@@ -1,5 +1,7 @@
-import mpp.api
+import csv
 import re
+
+import mpp.api
 
 
 class Plugin(mpp.api.Plugin,
@@ -43,17 +45,6 @@ class Plugin(mpp.api.Plugin,
             (pattern_to_search, self.Counter),  # pattern to search
             marker_type_mask=mpp.api.Marker.T.CODE,  # search in code
             region_type_mask=mpp.api.Region.T.FUNCTION)  # search in all types of regions
-
-        # todo check if this will be useful?
-        # Testing multiple entries to the database
-        '''pattern_to_search = re.compile('\+\+')
-        self.declare_metric(
-            self.is_active_numbers,  # to count if active in callback
-            self.Field('op_r', int),  # field name and type in the database
-            # TODO metric regex
-            (pattern_to_search, self.Counter),  # pattern to search
-            marker_type_mask=mpp.api.Marker.T.CODE,  # search in code
-            region_type_mask=mpp.api.Region.T.FUNCTION)'''
 
         # use superclass facilities to initialize everything from declared fields
         super(Plugin, self).initialize(fields=self.get_fields())
@@ -103,10 +94,39 @@ class Plugin(mpp.api.Plugin,
                 results[Plugin.functions.items()[i][0]] += metric_count
 
             # Prints the results in a more readable way
-            for i in range(len(results)):
-                print(results.items()[i])
+            #for i in range(len(results)):
+                #print(results.items()[i])
 
+            default = 0
+            column = 5
+            rows = []
+            line = 0
+
+            with open('C:/Users/ryanj/Documents/Honours_Project/loops.csv', 'r') as read_obj:
+                with open('C:/Users/ryanj/Documents/Honours_Project/operators_total.csv', 'wb') as write_obj:
+
+                    csv_reader = csv.reader(read_obj)
+                    csv_writer = csv.writer(write_obj)
+
+                    # for each row in the csv file
+                    for row in csv_reader:
+                        if line == 0:
+                            line += 1
+                            csv_writer.writerow(
+                                [row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9],
+                                 row[10], row[11], row[12], row[13]])
+                            continue
+                        for i in range(len(results)):
+                            if row[2] in results.items()[i]:
+                                row.append(results.items()[i][1])
+                                continue
+                            elif len(row) < column and i + 1 == len(results):
+                                row.append(default)
+                        line += 1
+                        rows.append(row)
+                    csv_writer.writerows(rows)
         else:
+
             counter = counter_class(namespace, field, self, alias, data, None)
             if field_data[1] != mpp.api.Marker.T.NONE:
                 for marker in data.iterate_markers(
@@ -144,12 +164,12 @@ class Plugin(mpp.api.Plugin,
             id = self.region.get_id()
             name = self.region.get_name()
 
-            #checks if the method's name has already been encountered
+            # checks if the method's name has already been encountered
             if name not in Plugin.methods:
                 Plugin.methods[name] = 1
                 Plugin.method_id[id] = 0
                 name = str(name) + '.' + str(Plugin.methods[name])
-            #Checks if the methods name and id has been encountered before
+            # Checks if the methods name and id has been encountered before
             elif id not in Plugin.method_id:
                 Plugin.methods[name] = Plugin.methods[name] + 1
                 Plugin.method_id[id] = 0
@@ -171,6 +191,5 @@ class Plugin(mpp.api.Plugin,
                     self.func_metric[match.group()] = 1
                 else:
                     self.func_metric[match.group()] += 1
-
 
             return 1
