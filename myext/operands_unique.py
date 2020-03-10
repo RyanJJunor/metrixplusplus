@@ -153,8 +153,8 @@ class Plugin(mpp.api.Plugin,
             rows = []
             line = 0
 
-            with open('C:/Users/ryanj/Documents/Honours_Project/operands_total.csv', 'r') as read_obj:
-                with open('C:/Users/ryanj/Documents/Honours_Project/Finished_Base_Metrics.csv', 'wb') as write_obj:
+            with open('C:/Users/ryanj/OneDrive - University of Stirling/Honours Project/Honours_Project/operands_total.csv', 'r') as read_obj:
+                with open('C:/Users/ryanj/OneDrive - University of Stirling/Honours Project/Honours_Project/Finished_Base_Metrics.csv', 'wb') as write_obj:
 
                     csv_reader = csv.reader(read_obj)
                     csv_writer = csv.writer(write_obj)
@@ -165,7 +165,7 @@ class Plugin(mpp.api.Plugin,
                             line += 1
                             csv_writer.writerow(
                                 [row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9],
-                                 row[10], row[11], row[12], row[13]])
+                                 row[10], row[11], row[12], row[13], row[14]])
                             continue
                         for i in range(len(results)):
                             if row[2] in results.items()[i]:
