@@ -25,7 +25,7 @@ class Plugin(mpp.api.Plugin,
     def initialize(self):
         # declare metric rules
         pattern_to_search = re.compile(
-            '(\swhile[\s(])|(\sfor[\s(])')  # 44??
+            '(\swhile[\s(])|(\sfor[\s(])')
         # declare metric rules
         self.declare_metric(
             self.is_active_numbers,  # to count if active in callback
@@ -33,7 +33,7 @@ class Plugin(mpp.api.Plugin,
             # TODO metric regex
             (pattern_to_search, self.Counter),  # pattern to search
             marker_type_mask=mpp.api.Marker.T.CODE,  # search in code
-            region_type_mask=mpp.api.Region.T.FUNCTION)  # search in all types of regions
+            region_type_mask=mpp.api.Region.T.FUNCTION)  # search in functions
 
         # use superclass facilities to initialize everything from declared fields
         super(Plugin, self).initialize(fields=self.get_fields())
@@ -91,8 +91,8 @@ class Plugin(mpp.api.Plugin,
             rows = []
             line = 0
 
-            with open('C:/Users/ryanj/OneDrive - University of Stirling/Honours Project/Honours_Project/functions.csv', 'r') as read_obj:
-                with open('C:/Users/ryanj/OneDrive - University of Stirling/Honours Project/Honours_Project/loops.csv', 'wb') as write_obj:
+            with open('C:/Users/ryanj/Documents/Test/Honours_Project/functions.csv', 'r') as read_obj:
+                with open('C:/Users/ryanj/Documents/Test/Honours_Project/loops.csv', 'wb') as write_obj:
 
                     csv_reader = csv.reader(read_obj)
                     csv_writer = csv.writer(write_obj)

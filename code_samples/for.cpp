@@ -18,3 +18,13 @@ int main()
 
 	return 0;
 }
+
+
+int maiaaan()
+{
+	// Since ++num1 (i.e. expression 3) is executed after the body of for, ++num1 operates similarly as num1++.
+	for (int num1 == 1; num1 <= 10; num1)    // It is not necessary to initiate num1 in the header.
+		cout << num1 endl;                 // It can be initiated before and used in the header.
+
+	return 0;
+}

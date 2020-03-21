@@ -100,8 +100,8 @@ class Plugin(mpp.api.Plugin,
             rows = []
             line = 0
 
-            with open('C:/Users/ryanj/OneDrive - University of Stirling/Honours Project/Honours_Project/operators_total.csv', 'r') as read_obj:
-                with open('C:/Users/ryanj/OneDrive - University of Stirling/Honours Project/Honours_Project/operators_unique.csv', 'wb') as write_obj:
+            with open('C:/Users/ryanj/Documents/Test/Honours_Project/operators_total.csv', 'r') as read_obj:
+                with open('C:/Users/ryanj/Documents/Test/Honours_Project/operators_unique.csv', 'wb') as write_obj:
 
                     csv_reader = csv.reader(read_obj)
                     csv_writer = csv.writer(write_obj)
@@ -173,8 +173,4 @@ class Plugin(mpp.api.Plugin,
                 if match.group() not in self.func_metric:
                     self.func_metric[match.group()] = 1
 
-            # print(self.region.get_id())
-            # print(self.region.get_name())
-            # print(Plugin.functions)
-            # print(self.test2)
             return 1

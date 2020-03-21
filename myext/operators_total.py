@@ -10,6 +10,7 @@ class Plugin(mpp.api.Plugin,
              # reuse by inheriting standard metric facilities
              mpp.api.MetricPluginMixin):
     functions = {}
+    test = {}
 
     methods = {}
     method_id = {}
@@ -34,6 +35,7 @@ class Plugin(mpp.api.Plugin,
         # http://icarus.cs.weber.edu/~dab/cs1410/textbook/2.Core/operators.html
         # bitor
 
+
         # todo anytime this get's changed, change in unique also. Add loops??? Add Classes???
         pattern_to_search = re.compile(
             '\sdelete\s|\snew\s|--|<<=|<<|<=|<|>>=|>>|>=|->\*|->|>|::|\+\+|\+=|\+|==|!=|\^=|\|=|\?[^:]+:|&&|&=|&|\*=|%=|/=|-=|=|-|\.\*|\*|/|\)|]|%|\.|\|\||\||,|~|\^|!')  # 44??
@@ -56,7 +58,10 @@ class Plugin(mpp.api.Plugin,
     # This method is used when the matches are being counted, I use to it to only display the count of metrics, ones the
     # entire file has been gone through
     def count_if_active(self, namespace, field, data, alias='*'):
+
+        Plugin.functions = {}
         if self.is_active(field) == False:
+
             return
 
         field_data = self._fields[field]
@@ -97,13 +102,18 @@ class Plugin(mpp.api.Plugin,
             #for i in range(len(results)):
                 #print(results.items()[i])
 
+            Plugin.test.update(results)
+
+            results = Plugin.test
+            print results
+
             default = 0
             column = 5
             rows = []
             line = 0
 
-            with open('C:/Users/ryanj/OneDrive - University of Stirling/Honours Project/Honours_Project/loops.csv', 'r') as read_obj:
-                with open('C:/Users/ryanj/OneDrive - University of Stirling/Honours Project/Honours_Project/operators_total.csv', 'wb') as write_obj:
+            with open('C:/Users/ryanj/Documents/Test/Honours_Project/loops.csv', 'r') as read_obj:
+                with open('C:/Users/ryanj/Documents/Test/Honours_Project/operators_total.csv', 'wb') as write_obj:
 
                     csv_reader = csv.reader(read_obj)
                     csv_writer = csv.writer(write_obj)
@@ -141,24 +151,11 @@ class Plugin(mpp.api.Plugin,
 
     class Counter(mpp.api.MetricPluginMixin.IterIncrementCounter):
 
+
         func_metric = {}
 
         # TODO contains logic on when to count a metric
         def increment(self, match):
-
-            # This appends the method id to the end of the method name, to distinguish overloaded methods
-            '''test = str(self.region.get_id())
-
-            region_name = self.region.get_name()+test
-
-            if region_name not in Plugin.functions:
-                self.func_metric = {match.group(): 1}
-                Plugin.functions[region_name] = self.func_metric
-            else:
-                if match.group() not in self.func_metric:
-                    self.func_metric[match.group()] = 1
-                else:
-                    self.func_metric[match.group()] += 1'''
 
             # If a method is overloaded, this will append the number of occurrences of the overloaded methods to the end of the name
             id = self.region.get_id()
@@ -182,6 +179,7 @@ class Plugin(mpp.api.Plugin,
             # the metric to the func_metric and give it a value of one, else if the metric hasn't already been added to
             # the func_metric dict, add it, and give it a value of one, if it is already in the dict, increment it by
             # one.
+
 
             if name not in Plugin.functions:
                 self.func_metric = {match.group(): 1}

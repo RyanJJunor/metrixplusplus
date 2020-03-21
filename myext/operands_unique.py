@@ -153,8 +153,8 @@ class Plugin(mpp.api.Plugin,
             rows = []
             line = 0
 
-            with open('C:/Users/ryanj/OneDrive - University of Stirling/Honours Project/Honours_Project/operands_total.csv', 'r') as read_obj:
-                with open('C:/Users/ryanj/OneDrive - University of Stirling/Honours Project/Honours_Project/Finished_Base_Metrics.csv', 'wb') as write_obj:
+            with open('C:/Users/ryanj/Documents/Test/Honours_Project/operands_total.csv', 'r') as read_obj:
+                with open('C:/Users/ryanj/Documents/Test/Honours_Project/Finished_Base_Metrics.csv', 'wb') as write_obj:
 
                     csv_reader = csv.reader(read_obj)
                     csv_writer = csv.writer(write_obj)
